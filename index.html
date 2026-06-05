@@ -98,13 +98,13 @@
         <!-- HEADER -->
         <header class="w-full px-4 py-8 md:py-10">
             <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 border-b border-white/10 pb-8">
-                <!-- Branding Container - Made significantly larger to match proposal sheets -->
-                <div class="flex items-center gap-4">
+                <!-- Branding Container - Made clickable & returns back to portal root directory -->
+                <a href="./" class="flex items-center gap-4 hover:opacity-90 active:scale-95 duration-150 transition-all cursor-pointer z-20">
                     <img src="https://i.postimg.cc/9zn5PrgX/TCHB-LOGO.png" 
                          alt="Total Cash Home Buyers Logo" 
                          class="h-16 md:h-20 w-auto object-contain"
                          onerror="fallbackLogo(this)">
-                </div>
+                </a>
                 <!-- Portal Tag -->
                 <div class="text-right flex flex-col items-center sm:items-end">
                     <span class="text-xs uppercase tracking-widest text-indigo-400 font-semibold">Underwriting Division</span>
@@ -319,6 +319,9 @@
                 `);
             }
         }
+
+        // Setup dynamic redirection when replacing logo element fallback
+        document.querySelector('.svg-logo-fallback')?.parentNode?.setAttribute('href', './');
 
         function fallbackIcon(img) {
             img.style.display = 'none';
@@ -583,7 +586,7 @@
                 ctx.moveTo(line.x1, line.y1);
                 ctx.lineTo(line.x2, line.y2);
 
-                // Multi-color linear gradient representing glowing electrical currents
+                // Multi-color linear gradient representing glowing electrical currents (restoring spark gradient)
                 let gradient = ctx.createLinearGradient(line.x1, line.y1, line.x2, line.y2);
                 gradient.addColorStop(0, `rgba(139, 92, 246, ${line.alpha * 0.85})`); // Vibrant Indigo
                 gradient.addColorStop(1, `rgba(220, 38, 38, ${line.alpha * 0.45})`);  // Soft Crimson
