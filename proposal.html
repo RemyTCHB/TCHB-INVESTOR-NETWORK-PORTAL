@@ -423,7 +423,8 @@
                 action: 'log_access', 
                 timestamp: Date.now(), 
                 email: emailInput, 
-                propertyId: urlPropId, 
+                propertyId: urlPropId,
+                keyUsed: document.getElementById('accessKeyInput').value.trim(),
                 status: "SUCCESS_OTP", 
                 reason: "Verified Email" 
             });
