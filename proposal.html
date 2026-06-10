@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TCHB - Proposal</title>
   
-  <link rel="icon" type="image/png" href="./icon.png">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
@@ -41,20 +41,22 @@
     @keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); } }
     .shake-element { animation: shake 0.4s ease-in-out; }
 
+    /* TIGHTER MOUSE GLOW (4 GRID BOXES = 220px) */
     #mouseGlow {
         position: fixed; inset: 0; pointer-events: none; z-index: 1;
-        background: radial-gradient(800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(79,70,229,0.12) 0%, rgba(16,185,129,0.06) 40%, rgba(220,38,38,0.02) 60%, transparent 80%);
+        background: radial-gradient(220px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh), rgba(79,70,229,0.15) 0%, rgba(16,185,129,0.08) 40%, rgba(220,38,38,0.02) 60%, transparent 80%);
         opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
     }
     
-    /* CUSTOM CURSOR */
-    @media (hover: hover) and (pointer: fine) {
-        body, a, button, input, [onclick], .cursor-pointer { cursor: none !important; }
-        #cursor-dot, #cursor-ring { display: block; }
-    }
-    #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, background-color 0.2s; display: none; }
-    #cursor-ring { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1.5px solid rgba(79, 70, 229, 0.6); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; display: none; }
-    body.cursor-hover #cursor-ring { width: 56px; height: 56px; background-color: rgba(79, 70, 229, 0.1); border-color: rgba(16, 185, 129, 0.8); }
+    /* FIXED CUSTOM CURSOR */
+    body, a, button, input, [onclick], .cursor-pointer { cursor: none !important; }
+    
+    #cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: white; border-radius: 50%; pointer-events: none; z-index: 999999; transform: translate(-50%, -50%); transition: transform 0.15s ease-out, background-color 0.2s; opacity: 0; }
+    #cursor-ring { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1.5px solid rgba(79, 70, 229, 0.6); border-radius: 50%; pointer-events: none; z-index: 999998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; opacity: 0; }
+    
+    body.mouse-active #cursor-dot, body.mouse-active #cursor-ring { opacity: 1; }
+    
+    body.cursor-hover #cursor-ring { width: 56px; height: 56px; background-color: rgba(79, 70, 229, 0.1); border-color: rgba(220, 38, 38, 0.8); }
     body.cursor-hover #cursor-dot { transform: translate(-50%, -50%) scale(1.5); background: #10b981; }
 
     /* Gate control */
@@ -122,8 +124,8 @@
       <header class="flex flex-col md:flex-row justify-between items-center pb-8 border-b border-gray-800 gap-6">
         <div class="flex items-center gap-4">
           <a href="../" class="flex items-center hover:opacity-90 active:scale-95 duration-150 transition-all">
-            <!-- LOGO POINTING TO LOCAL REPO -->
-            <img src="./logo.svg" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
+            <!-- LOGO POINTING TO LOCAL REPO W/O FALLBACK -->
+            <img src="logo.svg" alt="Total Cash Home Buyers Logo" class="h-16 md:h-20 w-auto object-contain" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
           </a>
         </div>
         <div class="text-right flex flex-col items-center md:items-end">
@@ -152,7 +154,7 @@
               <p id="ui-kpi-1-label" class="text-xs uppercase font-semibold text-indigo-400 tracking-wider">...</p>
               <h3 id="ui-kpi-1-value" class="text-4xl font-extrabold text-indigo-500 mt-1">...</h3>
             </div>
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
+            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg"></div>
           </div>
           <p id="ui-kpi-1-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
@@ -163,7 +165,7 @@
               <p id="ui-kpi-2-label" class="text-xs uppercase font-semibold text-brand-emerald tracking-wider">...</p>
               <h3 id="ui-kpi-2-value" class="text-4xl font-extrabold text-emerald-400 mt-1">...</h3>
             </div>
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
+            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg"></div>
           </div>
           <p id="ui-kpi-2-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
@@ -174,7 +176,7 @@
               <p id="ui-kpi-3-label" class="text-xs uppercase font-semibold text-brand-gold tracking-wider">...</p>
               <h3 id="ui-kpi-3-value" class="text-4xl font-extrabold text-amber-400 mt-1">...</h3>
             </div>
-            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
+            <div class="w-12 h-12 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg"></div>
           </div>
           <p id="ui-kpi-3-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
@@ -225,14 +227,14 @@
 
     <div class="print-page-2 mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left">
-          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
+          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg"></div>
           <div>
             <h4 id="ui-narrative-1-title" class="text-base font-extrabold text-white">...</h4>
             <p id="ui-narrative-1-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
           </div>
         </div>
         <div class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left">
-          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="./icon.png"></div>
+          <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg"></div>
           <div>
             <h4 id="ui-narrative-2-title" class="text-base font-extrabold text-white">...</h4>
             <p id="ui-narrative-2-desc" class="text-xs text-gray-400 mt-2 leading-relaxed">...</p>
@@ -272,8 +274,8 @@
 
     <footer class="mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 flex flex-col items-center gap-2">
       <div class="flex items-center gap-2 justify-center">
-        <!-- ICON POINTING TO LOCAL REPO -->
-        <img class="w-5 h-5 opacity-80" src="./icon.png" alt="TCHB Icon">
+        <!-- ICON POINTING TO LOCAL REPO W/O FALLBACK -->
+        <img class="w-5 h-5 opacity-80" src="icon.svg" alt="TCHB Icon">
         <span class="font-bold text-gray-400">TOTAL CASH HOME BUYERS</span> • <span>Underwriting Division</span>
       </div>
       <div class="flex gap-4 text-xs mt-1 mb-1">
@@ -611,7 +613,7 @@
     const canvas = document.getElementById('gridCanvas');
     const ctx = canvas.getContext('2d');
     let gridSize = 55; let sparks = []; let lastSpanSpawn = 0;
-    let lastInteractionTime = Date.now(); // AUTO SPARK IDLE TIMER
+    let lastInteractionTime = Date.now(); 
     const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }];
 
     // Custom Cursor Variables
@@ -642,12 +644,11 @@
         sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color });
     }
 
-    // ON CLICK ACTION - Attached to document so pointer-events: none doesn't block it
+    // Click logic
     document.addEventListener('mousedown', (e) => { 
         lastInteractionTime = Date.now();
         for(let i=0; i<3; i++) createSpark(e.clientX, e.clientY, true); 
 
-        // Cursor click compression effect
         const ring = document.getElementById('cursor-ring');
         if(ring) {
             ring.style.transform = `translate(-50%, -50%) scale(0.7)`;
@@ -655,17 +656,14 @@
         }
     });
 
-    // AMBIENT MOUSE FLASHLIGHT TRACKING & CURSOR
+    // Mouse tracking
     document.addEventListener('mousemove', (e) => {
+        document.body.classList.add('mouse-active'); // Make cursor visible on first move
         customMouseX = e.clientX;
         customMouseY = e.clientY;
 
-        // Move Dot instantly
         const dot = document.getElementById('cursor-dot');
-        if(dot) {
-            dot.style.left = `${customMouseX}px`;
-            dot.style.top = `${customMouseY}px`;
-        }
+        if(dot) { dot.style.left = `${customMouseX}px`; dot.style.top = `${customMouseY}px`; }
 
         const glow = document.getElementById('mouseGlow');
         if(glow) {
@@ -675,7 +673,6 @@
         }
     });
 
-    // Cursor Hover Effects for interactive elements
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest('a, button, input, [onclick], .cursor-pointer')) {
             document.body.classList.add('cursor-hover');
@@ -716,22 +713,17 @@
         for (let y = 0; y < canvas.height; y += gridSize) { ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); }
         ctx.stroke();
 
-        // Custom Cursor Trailing Ring Animation
+        // Cursor smoothing
         ringX += (customMouseX - ringX) * 0.15;
         ringY += (customMouseY - ringY) * 0.15;
         const ring = document.getElementById('cursor-ring');
-        if (ring) {
-            ring.style.left = `${ringX}px`;
-            ring.style.top = `${ringY}px`;
-        }
+        if (ring) { ring.style.left = `${ringX}px`; ring.style.top = `${ringY}px`; }
 
         drawSparks();
         
-        // AUTO SPARK CHECK (Only spawn if 5 seconds have passed without a click)
         if (Date.now() - lastInteractionTime > 5000) {
             if (timestamp - lastSpanSpawn > 500 && sparks.length < 32) { 
-                createSpark(); 
-                lastSpanSpawn = timestamp; 
+                createSpark(); lastSpanSpawn = timestamp; 
             }
         }
 
