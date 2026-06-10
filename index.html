@@ -224,7 +224,7 @@
                 
                 // 2. Added cursor-not-allowed / cursor-pointer explicitly to the button
                 const btnStateClass = isLocked ? "bg-gray-800 text-gray-500 border border-gray-700 cursor-not-allowed" : `bg-white/5 text-white border border-white/10 shadow-lg ${deal.btnHover} cursor-pointer`;
-                const btnText = isLocked ? "Archive Locked" : "View Analytics & Metrics &rarr;";
+                const btnText = isLocked ? "Locked" : "View Proposal &rarr;";
                 
                 // 3. Click handler will be bound to the button instead of the wrapper
                 const clickHandler = isLocked ? "" : `onclick="openModal('${prop.Property_ID}')"`;
