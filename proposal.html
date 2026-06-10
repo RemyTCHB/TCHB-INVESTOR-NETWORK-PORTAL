@@ -386,6 +386,7 @@
 
         if (authorized) {
             sessionStorage.setItem('tchb_access_granted_' + urlPropId, 'true');
+            sessionStorage.setItem('tchb_user_email', emailInput);
             unlockPage();
         } else {
             errorMsg.classList.remove('hidden');
@@ -570,7 +571,6 @@
             options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } }
         });
 
-        // Simple mock curve calculation based on P&I for visualization
         const m1 = data.marketPI * 12; const s1 = data.sub2PI * 12;
         const ctxInterest = document.getElementById('interestChart').getContext('2d');
         lineChart2 = new Chart(ctxInterest, {
@@ -634,9 +634,29 @@
     function createSpark(x = null, y = null, isClick = false) {
         const isHorizontal = Math.random() > 0.5;
         let startX, startY, dirX, dirY;
+        
         if (isClick && x !== null && y !== null) {
-            startX = x; startY = y;
-            dirX = isHorizontal ? (Math.random() > 0.5 ? 1 : -1) : 0; dirY = isHorizontal ? 0 : (Math.random() > 0.5 ? 1 : -1);
+            // Find closest point on any gridline to the click position
+            const snapX = Math.round(x / gridSize) * gridSize;
+            const snapY = Math.round(y / gridSize) * gridSize;
+            const distX = Math.abs(x - snapX);
+            const distY = Math.abs(y - snapY);
+
+            if (distX < distY) {
+                // Click is closer to a vertical gridline
+                startX = snapX;
+                startY = y;
+                // Move vertically along this gridline
+                dirX = 0;
+                dirY = Math.random() > 0.5 ? 1 : -1;
+            } else {
+                // Click is closer to a horizontal gridline
+                startX = x;
+                startY = snapY;
+                // Move horizontally along this gridline
+                dirX = Math.random() > 0.5 ? 1 : -1;
+                dirY = 0;
+            }
         } else {
             if (isHorizontal) {
                 startX = Math.random() < 0.5 ? 0 : canvas.width; startY = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
@@ -646,8 +666,30 @@
                 dirX = 0; dirY = startY === 0 ? 1 : -1;
             }
         }
+
+        // Align first target coordinates to snap perfectly to the grid intersection on arrival
+        let targetX = startX + dirX * gridSize;
+        let targetY = startY + dirY * gridSize;
+        if (isClick) {
+            targetX = Math.round(targetX / gridSize) * gridSize;
+            targetY = Math.round(targetY / gridSize) * gridSize;
+        }
+
         const color = brandColors[Math.floor(Math.random() * brandColors.length)];
-        sparks.push({ startX, startY, targetX: startX + dirX * gridSize, targetY: startY + dirY * gridSize, dirX, dirY, progress: 0, speed: 0.02 + Math.random() * 0.03, life: 1, decay: 0.005 + Math.random() * 0.01, history: [], color: color });
+        sparks.push({ 
+            startX, 
+            startY, 
+            targetX, 
+            targetY, 
+            dirX, 
+            dirY, 
+            progress: 0, 
+            speed: 0.02 + Math.random() * 0.03, 
+            life: 1, 
+            decay: 0.005 + Math.random() * 0.01, 
+            history: [], 
+            color: color 
+        });
     }
 
     // Click logic
