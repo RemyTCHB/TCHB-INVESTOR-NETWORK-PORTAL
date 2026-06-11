@@ -9,6 +9,7 @@
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -255,7 +256,7 @@
             const s = (status || '').toUpperCase();
             if (s === 'SOLD') return { bg: 'bg-brand-crimson/10', text: 'text-brand-crimson', border: 'border-brand-crimson/20', dot: '🔴', label: 'Sold / Closed', locked: true };
             if (s === 'PENDING') return { bg: 'bg-brand-gold/10', text: 'text-brand-gold', border: 'border-brand-gold/20', dot: '🟡', label: 'Under Contract', locked: false, pulse: 'animate-pulse' };
-            return { bg: 'bg-brand-emerald/10', text: 'text-brand-emerald', border: 'border-brand-emerald/20', dot: '🟢', label: 'Available', locked: false };
+            return { bg: 'bg-brand-emerald/10', text: 'text-brand-emerald', border: 'border-brand-emerald/20', dot: '���', label: 'Available', locked: false };
         }
 
         function getDealTheme(type) {
