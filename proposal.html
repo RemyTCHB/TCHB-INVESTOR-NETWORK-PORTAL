@@ -121,7 +121,7 @@
         </button>
         <div class="text-center mb-6">
             <div class="mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4" id="gateLockIconContainer">
-                <svg id="gateLockIcon" class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <svg id="gateLockIcon" class="w-8 h-8 text-indigo-400 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
             <h3 class="text-xl font-bold text-white mb-1">Direct Link Verification</h3>
             <p class="text-xs text-gray-400">Please Enter Credentials To Unlock This Proposal</p>
@@ -177,7 +177,7 @@
       </header>
 
       <div class="mt-6 flex justify-center text-center">
-        <div class="inline-flex flex-wrap justify-center items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-indigo-950/60 to-gray-900/60 text-gray-200 border border-white/10 shadow-[0_4px_20px_rgba(79,70,229,0.15)] cursor-pointer">
+        <div class="inline-flex flex-wrap justify-center items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-extrabold bg-gradient-to-r from-indigo-950/60 to-gray-900/60 text-gray-200 border border-white/10 shadow-[0_4px_20px_rgba(79,70,229,0.15)]">
           <span id="ui-pill-price" class="text-white font-black">...</span>
           <span class="text-gray-500">|</span>
           <span id="ui-pill-detail-1">...</span>
@@ -187,7 +187,7 @@
 
       <!-- CREATIVE KPIs -->
       <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6 hidden-module" id="creative-kpis">
-        <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+        <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
           <div class="flex justify-between items-start">
             <div>
               <p id="ui-kpi-1-label" class="text-xs uppercase font-semibold text-purple-400 tracking-wider">...</p>
@@ -199,7 +199,7 @@
           </div>
           <p id="ui-kpi-1-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
-        <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+        <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
           <div class="flex justify-between items-start">
             <div>
               <p id="ui-kpi-2-label" class="text-xs uppercase font-semibold text-indigo-400 tracking-wider">...</p>
@@ -211,7 +211,7 @@
           </div>
           <p id="ui-kpi-2-desc" class="text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
-        <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+        <div class="gradient-border bg-gray-900/50 p-6 rounded-xl flex flex-col justify-between transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
           <div class="flex justify-between items-start">
             <div>
               <p id="ui-kpi-3-label" class="text-xs uppercase font-semibold text-brand-crimson tracking-wider">...</p>
@@ -228,14 +228,14 @@
       <!-- WHOLESALE / RENTAL KPIs -->
       <div class="mt-6 flex flex-col gap-6 hidden-module" id="wholesale-kpis">
          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div id="ws-kpi-1-wrapper" class="relative gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl flex flex-col justify-center items-center text-center transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+            <div id="ws-kpi-1-wrapper" class="relative gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl flex flex-col justify-center items-center text-center transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
               <div class="absolute top-4 right-4 w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden">
                  <img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'">
               </div>
               <p id="ui-ws-kpi-1-label" class="text-xs uppercase font-semibold text-emerald-400 tracking-wider z-10">...</p>
               <h3 id="ui-ws-kpi-1-value" class="text-3xl lg:text-4xl font-extrabold text-white group-hover:text-emerald-400 transition-colors mt-2 z-10">...</h3>
             </div>
-            <div class="relative gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl flex flex-col justify-center items-center text-center transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+            <div class="relative gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl flex flex-col justify-center items-center text-center transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
               <div class="absolute top-4 right-4 w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden">
                  <img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'">
               </div>
@@ -263,7 +263,7 @@
         <div id="module-creative-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
             <div class="p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex justify-between items-center">
             <div><h3 class="text-lg font-bold text-white">Subject-To / Creative Deal Architecture</h3><p class="text-xs text-gray-400">Comparing Sub2/Creative against standard market debt.</p></div>
-            <button onclick="window.print()" class="no-print bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
+            <button onclick="window.print()" class="no-print bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
             <div class="overflow-x-auto"><table class="w-full text-center text-sm text-gray-300"><thead class="bg-gray-950/60 text-xs text-gray-400 uppercase"><tr><th class="px-6 py-4 text-center">Metric / Dimension</th><th class="px-6 py-4 text-purple-400 bg-purple-950/20 font-bold text-center">🔥 Proposed Deal</th><th class="px-6 py-4 text-center">Standard Market</th><th class="px-6 py-4 text-brand-emerald text-center">Net Advantage</th></tr></thead><tbody id="ui-creative-tbody" class="divide-y divide-gray-800"></tbody></table></div>
         </div>
@@ -272,7 +272,7 @@
         <div id="module-wholesale-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
             <div class="p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex justify-between items-center">
             <div><h3 class="text-lg font-bold text-white" id="ws-table-title">Wholesale / Off-Market Breakdown</h3><p class="text-xs text-gray-400">Direct spread analysis and expected ROI metrics.</p></div>
-            <button onclick="window.print()" class="no-print bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
+            <button onclick="window.print()" class="no-print bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
             <div class="overflow-x-auto"><table class="w-full text-sm text-gray-300"><thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead><tbody id="ui-wholesale-tbody" class="divide-y divide-gray-800 text-center"></tbody></table></div>
         </div>
@@ -281,15 +281,15 @@
         <div id="module-rental-table" class="hidden-module bg-gray-900/40 rounded-2xl border border-gray-800 overflow-hidden mb-8">
             <div class="p-6 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800 flex justify-between items-center">
             <div><h3 class="text-lg font-bold text-white">Turnkey / Rental Portfolio Operations</h3><p class="text-xs text-gray-400">Operational analysis of total expected rent and yields.</p></div>
-            <button onclick="window.print()" class="no-print bg-cyan-600 hover:bg-cyan-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
+            <button onclick="window.print()" class="no-print bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-all cursor-pointer">Export PDF</button>
             </div>
             <div class="overflow-x-auto"><table class="w-full text-sm text-gray-300"><thead class="bg-gray-950/60 text-xs text-gray-400 uppercase text-center"><tr><th class="px-6 py-4 text-left pl-6">Acquisition Info & Costs</th><th class="px-6 py-4 text-right">Amount</th><th class="px-6 py-4 text-left border-l border-gray-800 pl-6">Exit Strategy & Returns</th><th class="px-6 py-4 text-right pr-6">Amount</th></tr></thead><tbody id="ui-rental-tbody" class="divide-y divide-gray-800 text-center"></tbody></table></div>
         </div>
     </div>
 
     <!-- NARRATIVE BOXES (HUE FILLS APPLIED DYNAMICALLY VIA JS) -->
-    <div id="narrative-container" class="print-break-inside-avoid flex flex-col gap-6 cursor-pointer mb-12">
-        <div id="box-1-wrapper" class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
+    <div id="narrative-container" class="print-break-inside-avoid flex flex-col gap-6 mb-12">
+        <div id="box-1-wrapper" class="p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-1-title" class="text-base font-extrabold text-white">...</h4>
@@ -297,7 +297,7 @@
           </div>
         </div>
 
-        <div id="box-2-wrapper" class="bg-gray-900/20 p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
+        <div id="box-2-wrapper" class="p-6 rounded-xl border border-gray-800 flex gap-4 text-left hover:shadow-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300">
           <div class="w-10 h-10 rounded-full border border-white/10 bg-transparent flex items-center justify-center flex-shrink-0 overflow-hidden"><img class="w-full h-full object-contain scale-110" src="icon.svg" onerror="this.style.display='none'"></div>
           <div>
             <h4 id="ui-box-2-title" class="text-base font-extrabold text-white">...</h4>
@@ -396,7 +396,7 @@
 
     <!-- CHARTS -->
     <div class="print-break-inside-avoid">
-        <div id="module-charts" class="hidden-module mb-12 cursor-pointer">
+        <div id="module-charts" class="hidden-module mb-12">
           <div class="text-center mb-6 no-print md:block">
               <span class="text-indigo-400 font-bold uppercase text-xs tracking-wider">Visual Performance Analytics</span>
               <h3 class="text-2xl font-black text-white mt-1">Direct Comparative Visualizations</h3>
@@ -413,7 +413,7 @@
           </div>
         </div>
 
-        <div id="module-doughnut-chart" class="hidden-module mb-12 cursor-pointer">
+        <div id="module-doughnut-chart" class="hidden-module mb-12">
           <div class="text-center mb-6 no-print md:block">
               <span class="text-emerald-400 font-bold uppercase text-xs tracking-wider">Capital Architecture</span>
               <h3 class="text-2xl font-black text-white mt-1">Capital Slice Breakdown</h3>
@@ -568,14 +568,35 @@
             });
 
             setTimeout(() => {
-                gateAuthStep = 2;
-                document.getElementById('gateStep1Container').classList.add('hidden');
-                document.getElementById('gateStep2Container').classList.remove('hidden');
-                document.getElementById('gateErrorMessage').classList.add('hidden');
-                btn.innerText = "Verify & Unlock Proposal";
-                btn.className = "w-full bg-brand-emerald hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
-                btn.disabled = false;
-                document.getElementById('gateOtpInput').focus();
+                // Success Animation for sending code
+                const lockIcon = document.getElementById('gateLockIcon');
+                const lockContainer = document.getElementById('gateLockIconContainer');
+                const origIconHtml = lockIcon.innerHTML;
+
+                lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>';
+                lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
+                lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+                
+                btn.innerText = "Code Sent Successfully!";
+                btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 opacity-90 cursor-not-allowed";
+
+                setTimeout(() => {
+                    // Transition to step 2
+                    gateAuthStep = 2;
+                    document.getElementById('gateStep1Container').classList.add('hidden');
+                    document.getElementById('gateStep2Container').classList.remove('hidden');
+                    document.getElementById('gateErrorMessage').classList.add('hidden');
+                    
+                    // Revert to Indigo for Step 2
+                    lockIcon.innerHTML = origIconHtml;
+                    lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
+                    lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
+                    
+                    btn.innerText = "Verify & Unlock Proposal";
+                    btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer";
+                    btn.disabled = false;
+                    document.getElementById('gateOtpInput').focus();
+                }, 1500);
             }, 500);
 
         } else if (gateAuthStep === 2) {
@@ -595,6 +616,7 @@
         const btn = document.getElementById('gateAuthButton');
         document.getElementById('gateErrorMessage').classList.add('hidden');
         const lockIcon = document.getElementById('gateLockIcon');
+        const lockContainer = document.getElementById('gateLockIconContainer');
         
         sessionStorage.setItem('tchb_active_property', propId); // Update mapping security
         sessionStorage.setItem('tchb_email_' + propId, email); 
@@ -602,7 +624,7 @@
         
         lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
         lockIcon.className = "w-8 h-8 text-brand-emerald transition-all duration-300 scale-110";
-        document.getElementById('gateLockIconContainer').className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
+        lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-brand-emerald/10 flex items-center justify-center border border-brand-emerald/20 mb-4 animate-bounce";
 
         btn.innerText = isAdmin ? "Admin Access Granted..." : "Access Granted...";
         btn.className = "w-full bg-brand-emerald text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-not-allowed opacity-90";
@@ -616,7 +638,7 @@
         setTimeout(() => { 
             document.getElementById('secureGate').classList.add('hidden');
             unlockPage(); 
-        }, 800);
+        }, 1200);
     }
 
     function unlockPage() {
@@ -748,10 +770,16 @@
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
             document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
             document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
+            
+            const wsWrapper1 = document.getElementById('ws-kpi-1-wrapper');
             if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') {
-                const wrapper = document.getElementById('ws-kpi-1-wrapper');
-                wrapper.onclick = () => window.open(data.wsInfo1Link, '_blank');
+                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank');
+                wsWrapper1.classList.add('cursor-pointer');
+            } else {
+                wsWrapper1.classList.remove('cursor-pointer');
+                wsWrapper1.onclick = null;
             }
+
             document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label;
             document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
             document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
@@ -780,10 +808,16 @@
             document.getElementById('wholesale-kpis').classList.remove('hidden-module');
             document.getElementById('ui-ws-kpi-1-label').innerText = data.wsInfo1Label;
             document.getElementById('ui-ws-kpi-1-value').innerText = data.wsInfo1Value;
+            
+            const wsWrapper1 = document.getElementById('ws-kpi-1-wrapper');
             if (data.wsInfo1Link && data.wsInfo1Link.trim() !== '') {
-                const wrapper = document.getElementById('ws-kpi-1-wrapper');
-                wrapper.onclick = () => window.open(data.wsInfo1Link, '_blank');
+                wsWrapper1.onclick = () => window.open(data.wsInfo1Link, '_blank');
+                wsWrapper1.classList.add('cursor-pointer');
+            } else {
+                wsWrapper1.classList.remove('cursor-pointer');
+                wsWrapper1.onclick = null;
             }
+
             document.getElementById('ui-ws-kpi-2-label').innerText = data.wsInfo2Label;
             document.getElementById('ui-ws-kpi-2-value').innerText = data.wsInfo2Value;
             document.getElementById('ui-ws-kpi-2-desc').innerText = data.wsInfo2Desc;
