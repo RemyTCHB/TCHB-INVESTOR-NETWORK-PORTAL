@@ -81,17 +81,18 @@
     .gate-unlocked #secureGate { display: none !important; }
     .hidden-module { display: none !important; }
 
-    @keyframes pan-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    .animate-text-gradient { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s ease-in-out infinite; }
+    .animate-text-gradient-pulse { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s ease-in-out infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
     .gradient-ring-border { position: absolute; inset: 0; border-radius: 50%; padding: 3px; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: pan-x 6s ease-in-out infinite, custom-spin 1.5s linear infinite; }
     .gradient-ring-glow { position: absolute; inset: -4px; border-radius: 50%; background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; filter: blur(12px); animation: pan-x 6s ease-in-out infinite, pulse-glow-strong 2s ease-in-out infinite alternate; }
+    @keyframes pan-x { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     @keyframes custom-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
     @keyframes icon-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.6; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); } 50% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.6)); } }
     .animate-icon-pulse { animation: icon-pulse 2s ease-in-out infinite; }
     
-    .animate-text-gradient-pulse { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: pan-x 6s ease-in-out infinite, text-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-    @keyframes text-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
     .btn-mixed-hue { background: linear-gradient(110deg, #dc2626, #4f46e5, #10b981, #dc2626, #4f46e5); background-size: 300% 300%; animation: pan-x 6s ease-in-out infinite; }
     .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
@@ -127,9 +128,12 @@
   <div id="cursor-dot"></div>
   <div id="cursor-ring"></div>
 
+  <!-- FIXED CANVAS -->
+  <canvas id="gridCanvas" class="fixed inset-0 w-full h-full -z-10 no-print" style="pointer-events: none;"></canvas>
+
   <!-- AUTHENTICATION GATE -->
-  <div id="secureGate" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md no-print">
-    <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl animate-modal-in" id="gateModalBox">
+  <div id="secureGate" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm no-print transition-opacity duration-300">
+    <div class="bg-[#0f0f1f] border border-indigo-500/30 rounded-2xl w-full max-w-md p-5 sm:p-6 relative shadow-2xl opacity-0 scale-95" id="gateModalBox">
         <button onclick="window.location.href='../'" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -915,7 +919,6 @@
             document.getElementById('secureGate').classList.remove('hidden');
             
             if(currentDBRow) {
-                document.getElementById('gateAddressDisplay').innerText = `Property: ${currentDBRow.Address}, ${currentDBRow.City_State}`;
                 document.getElementById('gateEmailInput').value = sessionStorage.getItem('tchb_email_' + urlPropId) || '';
             }
         }
