@@ -26,6 +26,9 @@
         .btn-mixed-hue { background: linear-gradient(to right, #4f46e5, #10b981, #dc2626, #10b981, #4f46e5); background-size: 300% 100%; animation: pan-x 6s linear infinite; }
         .btn-mixed-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
+        .btn-silver-hue { background: linear-gradient(to right, #475569, #94a3b8, #cbd5e1, #94a3b8, #475569); background-size: 300% 100%; animation: pan-x 6s linear infinite; color: #ffffff; }
+        .btn-silver-hue:hover { filter: brightness(1.15); box-shadow: 0 4px 15px rgba(148, 163, 184, 0.3); }
+
         @keyframes pan-x { 0% { background-position: 100% center; } 100% { background-position: 0% center; } }
         @keyframes custom-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulse-glow-strong { 0% { opacity: 0.3; transform: scale(0.9); } 100% { opacity: 0.8; transform: scale(1.1); } }
@@ -46,7 +49,7 @@
         .animate-modal-out { animation: modal-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
         /* Cursor */
-        body, a, button, input, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
+        body, a, button, input, textarea, select, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
         #mouseGlow { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1; width: 220px; height: 220px; transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px)); opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen; }
         #mouseGlow::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at center, transparent 15%, rgba(16, 185, 129, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(220, 38, 38, 0.25) 85%, transparent 100%); filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite; }
         @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
@@ -66,7 +69,7 @@
         .property-card:hover::before { opacity: 1; }
         .property-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(79, 70, 229, 0.15); border-color: rgba(79, 70, 229, 0.3); }
         .locked-card { opacity: 0.65; filter: grayscale(40%); pointer-events: none; }
-        .locked-card .lock-overlay { position: absolute; inset: 0; background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(2px); z-index: 10; display: flex; flex-direction: column; items-center; justify-center; }
+        .locked-card .lock-overlay { position: absolute; inset: 0; background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(2px); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body class="font-sans antialiased relative">
@@ -133,7 +136,9 @@
                     <input type="text" id="shFirstName" placeholder="First Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
                     <input type="text" id="shLastName" placeholder="Last Name" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
                 </div>
-                <div><input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text"></div>
+                <div>
+                    <input type="email" id="shEmail" placeholder="Email Address" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-text">
+                </div>
                 <div>
                     <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">US Phone Number</label>
                     <div class="flex gap-2">
@@ -141,15 +146,31 @@
                         <input type="tel" id="shPhone" placeholder="(555) 000-0000" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all cursor-text" maxlength="14" oninput="formatPhoneInput(this)">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Requested Date & Time</label>
-                    <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Date & Time</label>
+                        <input type="datetime-local" id="shTime" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold">Time Zone</label>
+                        <select id="shTimeZone" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-2 py-3 text-center text-white focus:outline-none focus:border-indigo-500/50 transition-all cursor-pointer">
+                            <option value="" disabled selected>Select Zone</option>
+                            <option value="EST">Eastern (EST/EDT)</option>
+                            <option value="CST">Central (CST/CDT)</option>
+                            <option value="MST">Mountain (MST/MDT)</option>
+                            <option value="PST">Pacific (PST/PDT)</option>
+                            <option value="AKST">Alaskan (AKST)</option>
+                            <option value="HST">Hawaii (HST)</option>
+                        </select>
+                    </div>
                 </div>
-                <div><textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea></div>
+                <div>
+                    <textarea id="shNote" placeholder="Additional Notes..." rows="2" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center text-white text-sm focus:outline-none focus:border-indigo-500/50 transition-all cursor-text resize-none"></textarea>
+                </div>
             </div>
 
             <p id="showingErrorMessage" class="text-xs text-brand-crimson font-medium text-center hidden mt-4">Please fill out all required fields.</p>
-            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20">
+            <button id="submitShowingBtn" onclick="submitShowingRequest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10">
                 Confirm Showing Request
             </button>
         </div>
@@ -202,7 +223,7 @@
                 Investor Network <span class="animate-text-gradient">Portal</span>
             </h1>
             <p class="max-w-2xl mx-auto text-gray-400 text-sm md:text-base">
-                Use Your Email & The Access Key Provided To Gain Access To The Proposal.
+                Use Your Email & The Access Key Provided To Gain Access To The Property Data.
             </p>
         </header>
 
@@ -308,14 +329,16 @@
             let dealTypeMap = 'wholesale';
             if(rawType.includes('SUBJECT-TO') || rawType.includes('CREATIVE')) dealTypeMap = 'creative';
             else if(rawType.includes('RENTAL') || rawType.includes('TURN KEY') || rawType.includes('TURNKEY')) dealTypeMap = 'rental';
+            
             const themeClass = getDealThemeClass(dealTypeMap);
             const statusClass = getStatusColor(prop.Status);
-            const isLocked = (prop.Status === 'PENDING' || prop.Status === 'SOLD' || prop.Status === 'CLOSED' || prop.Status === 'UPCOMING');
+            
+            // Only lock if Sold, Closed, or Upcoming
+            const isLocked = (prop.Status === 'SOLD' || prop.Status === 'CLOSED' || prop.Status === 'UPCOMING');
 
             const div = document.createElement('div');
             div.className = `property-card p-6 ${isLocked ? 'locked-card' : ''}`;
             
-            // Add custom properties to the DOM element so we can access them in modals
             div.dataset.propId = prop.Property_ID;
             div.dataset.address = `${prop.Address}, ${prop.City_State}`;
             div.dataset.accessKey = prop.Access_Password;
@@ -328,7 +351,9 @@
 
             let lockOverlay = '';
             if (isLocked) {
-                const icon = prop.Status === 'UPCOMING' ? '<svg class="w-10 h-10 mb-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' : '<svg class="w-10 h-10 mb-3 text-brand-crimson" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
+                const icon = prop.Status === 'UPCOMING' 
+                    ? '<svg class="w-10 h-10 mb-3 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>' 
+                    : '<svg class="w-10 h-10 mb-3 text-brand-crimson" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>';
                 const color = prop.Status === 'UPCOMING' ? 'text-slate-300' : 'text-brand-crimson';
                 lockOverlay = `
                     <div class="lock-overlay flex flex-col items-center justify-center">
@@ -359,11 +384,13 @@
                     <div class="flex items-center text-sm text-gray-300 bg-black/20 p-2.5 rounded-lg border border-white/5"><span class="w-2 h-2 rounded-full bg-brand-emerald mr-3"></span>${prop.Pill_3 || 'Clear Title'}</div>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-3 mt-auto">
-                    <button onclick="openGate('${prop.Property_ID}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all hover:shadow-[0_0_15px_rgba(79,70,229,0.4)] flex items-center justify-center gap-2 cursor-pointer text-xs sm:text-sm border border-white/10">
+                <div class="flex flex-col gap-3 mt-auto">
+                    <button onclick="openGate('${prop.Property_ID}')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-xl transition-all hover:shadow-[0_0_15px_rgba(79,70,229,0.4)] flex items-center justify-center gap-2 cursor-pointer shadow-lg border border-indigo-500/20 text-sm">
                         View Property Data
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
-                    <button onclick="openShowingModal(this.closest('.property-card'))" class="btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg border border-white/20 text-xs sm:text-sm">
+                    <button onclick="openShowingModal(this.closest('.property-card'))" class="btn-silver-hue w-full text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg border border-white/20 text-sm">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         Request Showing
                     </button>
                 </div>
@@ -377,10 +404,9 @@
             grid.innerHTML = '';
             
             if(propertiesDB.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500 font-bold">No Active Proposals In Network.</div>';
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500 font-bold">No Active Properties In Network.</div>';
                 return;
             }
-
             propertiesDB.forEach(prop => grid.appendChild(createCard(prop)));
         }
 
@@ -473,17 +499,16 @@
                         lockIcon.className = "w-8 h-8 text-indigo-400 transition-all duration-300";
                         lockContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4";
                         
-                        btn.innerText = "Verify & Unlock Proposal";
+                        btn.innerText = "Verify & Unlock Property Data";
                         btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-indigo-500/20";
-                        btn.disabled = false;
-                        document.getElementById('gateOtpInput').focus();
+                        btn.disabled = false; document.getElementById('gateOtpInput').focus();
                     }, 1500);
                 }, 500);
 
             } else if (gateAuthStep === 2) {
                 const userOTP = document.getElementById('gateOtpInput').value.trim();
                 if (userOTP !== gateExpectedOTP) {
-                    showGateError("Incorrect Verification Code.");
+                    showGateError("Incorrect Code.");
                     sendWebhookEvent({ action: 'failed_access', timestamp: Date.now(), email: emailInput, propertyId: activeGateProperty.Property_ID, otpUsed: userOTP, status: "ERROR", reason: "Invalid OTP", sessionId: currentSessionId });
                     return;
                 }
@@ -512,7 +537,7 @@
             sendWebhookEvent({ action: 'log_access', timestamp: Date.now(), email: email, propertyId: activeGateProperty.Property_ID, otpUsed: otpOrKeyUsed, status: "SUCCESS", reason: reasonStr, sessionId: currentSessionId });
 
             setTimeout(() => { 
-                window.location.href = `proposal.html?id=${encodeURIComponent(activeGateProperty.Property_ID)}`;
+                window.location.href = `property_data.html?id=${encodeURIComponent(activeGateProperty.Property_ID)}`;
             }, 1000);
         }
 
@@ -551,13 +576,14 @@
             const email = document.getElementById('shEmail').value.trim();
             const rawPhone = document.getElementById('shPhone').value.trim();
             const time = document.getElementById('shTime').value.trim();
+            const tz = document.getElementById('shTimeZone').value;
             const note = document.getElementById('shNote').value.trim();
             const errorMsg = document.getElementById('showingErrorMessage');
             const btn = document.getElementById('submitShowingBtn');
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits || !time) {
-                errorMsg.innerText = "First Name, Last Name, Email, Phone, and Requested Time are required.";
+            if(!fn || !ln || !email || !phoneDigits || !time || !tz) {
+                errorMsg.innerText = "All fields except Notes are required.";
                 errorMsg.classList.remove('hidden'); return;
             }
             if(phoneDigits.length !== 10) {
@@ -572,9 +598,17 @@
             btn.classList.add('opacity-75', 'cursor-not-allowed');
 
             const payload = {
-                propertyId: activeShowingPropId, accessKey: activeShowingAccessKey, address: activeShowingAddress,
-                firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: time, note: note,
-                source: "TCHB Investor Portal - Showing", timestamp: new Date().toISOString()
+                propertyId: activeShowingPropId,
+                accessKey: activeShowingAccessKey,
+                address: activeShowingAddress,
+                firstName: fn,
+                lastName: ln,
+                email: email,
+                phone: formattedPhone,
+                showingTime: `${time} ${tz}`,
+                note: note,
+                source: "TCHB Investor Portal - Showing",
+                timestamp: new Date().toISOString()
             };
 
             try {
@@ -600,10 +634,11 @@
                     closeShowingModal();
                     setTimeout(() => {
                         btn.disabled = false;
-                        btn.className = `btn-mixed-hue w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/20`;
+                        btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10`;
+                        
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
-                        document.getElementById('shTime').value = ''; document.getElementById('shNote').value = '';
+                        document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shNote').value = '';
                         
                         iconContainer.className = "mx-auto w-16 h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-4 transition-all duration-300";
                         iconContainer.innerHTML = '<svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
@@ -672,8 +707,13 @@
             const payload = {
                 propertyId: activeGateProperty ? activeGateProperty.Property_ID : "Unknown",
                 address: activeGateProperty ? activeGateProperty.Address + ", " + activeGateProperty.City_State : "Unknown",
-                firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
-                source: "TCHB Investor Portal - Access Request", timestamp: new Date().toISOString()
+                firstName: fn,
+                lastName: ln,
+                email: email,
+                phone: formattedPhone,
+                note: note,
+                source: "TCHB Investor Portal - Access Request",
+                timestamp: new Date().toISOString()
             };
 
             try {
@@ -700,6 +740,7 @@
                     setTimeout(() => {
                         btn.disabled = false;
                         btn.className = `w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg shadow-emerald-500/20`;
+                        
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('accFirstName').value = ''; document.getElementById('accLastName').value = '';
                         document.getElementById('accNote').value = '';
@@ -725,7 +766,7 @@
         const ctx = canvas.getContext('2d');
         let gridSize = 55; let sparks = []; let lastSpanSpawn = 0;
         let lastInteractionTime = Date.now(); 
-        const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }]; // Indigo, Red, Emerald
+        const brandColors = [{ r: 79, g: 70, b: 229 }, { r: 220, g: 38, b: 38 }, { r: 16, g: 185, b: 129 }];
 
         let customMouseX = window.innerWidth / 2; let customMouseY = window.innerHeight / 2;
         let ringX = customMouseX; let ringY = customMouseY;
@@ -779,7 +820,7 @@
             if (e.target.closest('.cursor-not-allowed')) {
                 document.body.classList.add('cursor-locked');
                 document.body.classList.remove('cursor-hover');
-            } else if (e.target.closest('a, button, input, textarea, [onclick], .cursor-pointer')) {
+            } else if (e.target.closest('a, button, input, textarea, select, [onclick], .cursor-pointer')) {
                 document.body.classList.add('cursor-hover');
                 document.body.classList.remove('cursor-locked');
             } else {
