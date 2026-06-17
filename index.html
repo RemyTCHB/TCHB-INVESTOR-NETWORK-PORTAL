@@ -42,18 +42,19 @@
         .flip-out { transform: translateX(30px); opacity: 0; }
         .flip-inner { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
+        /* Restored Ripple Glow */
         #mouseGlow {
             position: fixed; left: 0; top: 0; pointer-events: none; z-index: 1;
-            width: 300px; height: 300px;
-            transform: translate(calc(var(--mouse-x, 50vw) - 150px), calc(var(--mouse-y, 50vh) - 150px));
+            width: 220px; height: 220px;
+            transform: translate(calc(var(--mouse-x, 50vw) - 110px), calc(var(--mouse-y, 50vh) - 110px));
             opacity: 0; transition: opacity 0.5s ease; mix-blend-mode: screen;
         }
         #mouseGlow::before {
             content: ""; position: absolute; inset: 0; border-radius: 50%;
-            background: conic-gradient(from 0deg, rgba(220,38,38,0.3), rgba(79,70,229,0.3), rgba(16,185,129,0.3), rgba(220,38,38,0.3));
-            filter: blur(40px); animation: color-spin 4s linear infinite;
+            background: radial-gradient(circle at center, transparent 15%, rgba(220, 38, 38, 0.25) 35%, rgba(79, 70, 229, 0.25) 60%, rgba(16, 185, 129, 0.25) 85%, transparent 100%);
+            filter: blur(16px); opacity: 0.7; animation: color-cycle 5s linear infinite;
         }
-        @keyframes color-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes color-cycle { 0% { filter: blur(16px) hue-rotate(0deg); } 100% { filter: blur(16px) hue-rotate(360deg); } }
         
         body, a, button, input, select, textarea, [onclick], .cursor-pointer, .cursor-not-allowed { cursor: none !important; }
         
@@ -91,12 +92,6 @@
         /* Custom Silver Button */
         .btn-showing { background: linear-gradient(to right, #e2e8f0, #f8fafc, #e2e8f0); background-size: 200% 100%; color: #0f172a; border: 1px solid #cbd5e1; }
         .btn-showing:hover { animation: pan-x 3s linear infinite; background: linear-gradient(to right, #94a3b8, #cbd5e1, #94a3b8); background-size: 200% 100%; border-color: transparent; box-shadow: 0 4px 15px rgba(148, 163, 184, 0.4); color: #000; }
-        
-        /* Styled Date/Time Pickers (Split Inputs) */
-        .custom-datetime { color-scheme: dark; }
-        .custom-datetime::-webkit-calendar-picker-indicator {
-            background: transparent; bottom: 0; color: transparent; cursor: pointer; height: auto; left: 0; position: absolute; right: 0; top: 0; width: auto; z-index: 10;
-        }
 
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -198,20 +193,15 @@
                     </div>
                 </div>
                 
-                <!-- Enhanced Date, Time & Premium Custom Timezone UI -->
+                <!-- CUSTOM PREMIUM DATE/TIME & TIMEZONE UI -->
                 <div class="flex gap-3 text-left relative w-full">
                     <div class="flex-[3] min-w-0 relative">
                         <label class="block text-[10px] uppercase tracking-wider text-gray-400 mb-1.5 font-bold text-center">Date & Time</label>
-                        <div class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group">
-                            <!-- Split Inputs avoid infinite scroll UI in Chrome -->
-                            <div class="relative w-[55%] border-r border-white/10 h-full">
-                                <input type="date" id="shDate" class="w-full h-full bg-transparent pl-3 pr-2 py-3 text-white focus:outline-none cursor-pointer custom-datetime text-[12px] sm:text-[13px] appearance-none relative z-10 text-center">
-                            </div>
-                            <div class="relative w-[45%] h-full">
-                                <input type="time" id="shTime" class="w-full h-full bg-transparent pl-2 pr-7 py-3 text-white focus:outline-none cursor-pointer custom-datetime text-[12px] sm:text-[13px] appearance-none relative z-10 text-center">
-                            </div>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div onclick="openCustomDateTimePicker()" class="relative w-full flex items-center overflow-hidden rounded-lg bg-[#18182d] hover:bg-[#1c1c31] border border-white/10 hover:border-white/20 focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50 transition-all group cursor-pointer h-[46px]">
+                            <!-- Readonly display, bypasses native browser picker -->
+                            <input type="text" id="shDateTimeDisplay" readonly placeholder="Select Date & Time" class="w-full h-full bg-transparent pl-4 pr-10 py-3 text-white focus:outline-none cursor-pointer text-[12px] sm:text-[13px] appearance-none relative z-10 text-center font-bold pointer-events-none">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 group-hover:text-indigo-400 transition-colors z-0">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
                         </div>
                     </div>
@@ -242,6 +232,62 @@
                     Confirm Showing Request
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM DATE/TIME PICKER MODAL -->
+    <div id="customDtModal" class="fixed inset-0 z-[160] hidden flex items-center justify-center p-4 bg-black/95 backdrop-blur-md transition-opacity duration-300">
+        <div class="bg-[#0f0f1f] border border-white/10 rounded-2xl w-full max-w-sm p-6 relative shadow-2xl opacity-0 scale-95" id="customDtModalBox">
+            <button onclick="closeCustomDateTimePicker()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-lg font-bold text-white mb-5 text-center border-b border-white/10 pb-4">Select Date & Time</h3>
+            
+            <!-- Calendar Header -->
+            <div class="flex justify-between items-center mb-5 px-2">
+                <button onclick="changeMonth(-1)" class="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                <div id="dtMonthYear" class="text-white font-bold text-sm tracking-wide">June 2026</div>
+                <button onclick="changeMonth(1)" class="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+            </div>
+            
+            <!-- Calendar Grid -->
+            <div class="grid grid-cols-7 gap-1 text-center mb-2 px-1">
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Su</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Mo</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Tu</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">We</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Th</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Fr</div>
+                <div class="text-[10px] font-bold text-gray-500 uppercase">Sa</div>
+            </div>
+            <div id="dtCalendarDays" class="grid grid-cols-7 gap-1 text-center mb-6 px-1">
+                <!-- Days injected by JS -->
+            </div>
+
+            <!-- Time Selector -->
+            <div class="border-t border-white/10 pt-5 pb-2">
+                <div class="flex items-center justify-center gap-5">
+                    <div class="flex flex-col items-center gap-2">
+                        <button onclick="changeHour(1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+                        <div class="w-14 h-12 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-xl font-bold text-white shadow-inner" id="dtHour">12</div>
+                        <button onclick="changeHour(-1)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
+                    </div>
+                    <span class="text-2xl text-gray-600 font-bold pb-7">:</span>
+                    <div class="flex flex-col items-center gap-2">
+                        <button onclick="changeMinute(15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"></path></svg></button>
+                        <div class="w-14 h-12 flex items-center justify-center bg-[#18182d] border border-white/10 rounded-xl text-xl font-bold text-white shadow-inner" id="dtMinute">00</div>
+                        <button onclick="changeMinute(-15)" class="text-gray-500 hover:text-indigo-400 transition-colors cursor-pointer"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg></button>
+                    </div>
+                    <div class="flex flex-col gap-2 ml-3">
+                        <button onclick="setAmPm('AM')" id="dtAmBtn" class="px-3.5 py-2 rounded-lg bg-indigo-600 text-white font-bold text-[11px] tracking-wider transition-colors cursor-pointer">AM</button>
+                        <button onclick="setAmPm('PM')" id="dtPmBtn" class="px-3.5 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer">PM</button>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="confirmDateTime()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 px-4 rounded-xl transition-colors mt-6 text-[13px] sm:text-sm shadow-[0_0_15px_rgba(79,70,229,0.3)] cursor-pointer tracking-wide uppercase">
+                Confirm Selection
+            </button>
         </div>
     </div>
 
@@ -360,6 +406,86 @@
             if (!x[2]) input.value = x[1];
             else input.value = '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         }
+
+        // --- Custom Date Time Logic ---
+        let dtCurrentDate = new Date();
+        let dtSelectedYear = dtCurrentDate.getFullYear();
+        let dtSelectedMonth = dtCurrentDate.getMonth(); 
+        let dtSelectedDate = dtCurrentDate.getDate();
+        let dtHourVal = dtCurrentDate.getHours() % 12 || 12;
+        let dtMinuteVal = 0; 
+        let dtAmPm = dtCurrentDate.getHours() >= 12 ? 'PM' : 'AM';
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        function openCustomDateTimePicker() {
+            renderCalendar(); updateTimeUI();
+            const modalBox = document.getElementById('customDtModalBox');
+            document.getElementById('customDtModal').classList.remove('hidden');
+            modalBox.classList.remove('animate-modal-out');
+            modalBox.classList.add('animate-modal-in');
+        }
+
+        function closeCustomDateTimePicker() {
+            const modalBox = document.getElementById('customDtModalBox');
+            modalBox.classList.remove('animate-modal-in');
+            modalBox.classList.add('animate-modal-out');
+            setTimeout(() => { document.getElementById('customDtModal').classList.add('hidden'); }, 300);
+        }
+
+        function renderCalendar() {
+            document.getElementById('dtMonthYear').innerText = `${monthNames[dtSelectedMonth]} ${dtSelectedYear}`;
+            const daysContainer = document.getElementById('dtCalendarDays');
+            daysContainer.innerHTML = '';
+            
+            const firstDay = new Date(dtSelectedYear, dtSelectedMonth, 1).getDay();
+            const daysInMonth = new Date(dtSelectedYear, dtSelectedMonth + 1, 0).getDate();
+            
+            for (let i = 0; i < firstDay; i++) { daysContainer.innerHTML += `<div></div>`; }
+            
+            for (let i = 1; i <= daysInMonth; i++) {
+                const isSelected = i === dtSelectedDate;
+                const bgClass = isSelected ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30' : 'text-gray-300 hover:bg-white/10 hover:text-white';
+                daysContainer.innerHTML += `<div onclick="selectDate(${i})" class="p-2 cursor-pointer text-[13px] font-semibold rounded-lg transition-all ${bgClass}">${i}</div>`;
+            }
+        }
+
+        function changeMonth(dir) {
+            dtSelectedMonth += dir;
+            if (dtSelectedMonth < 0) { dtSelectedMonth = 11; dtSelectedYear--; }
+            else if (dtSelectedMonth > 11) { dtSelectedMonth = 0; dtSelectedYear++; }
+            const daysInNewMonth = new Date(dtSelectedYear, dtSelectedMonth + 1, 0).getDate();
+            if (dtSelectedDate > daysInNewMonth) dtSelectedDate = daysInNewMonth;
+            renderCalendar();
+        }
+
+        function selectDate(d) { dtSelectedDate = d; renderCalendar(); }
+
+        function updateTimeUI() {
+            document.getElementById('dtHour').innerText = dtHourVal < 10 ? '0'+dtHourVal : dtHourVal;
+            document.getElementById('dtMinute').innerText = dtMinuteVal < 10 ? '0'+dtMinuteVal : dtMinuteVal;
+            
+            if(dtAmPm === 'AM') {
+                document.getElementById('dtAmBtn').className = "px-3.5 py-2 rounded-lg bg-indigo-600 text-white font-bold text-[11px] tracking-wider transition-colors cursor-pointer";
+                document.getElementById('dtPmBtn').className = "px-3.5 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
+            } else {
+                document.getElementById('dtPmBtn').className = "px-3.5 py-2 rounded-lg bg-indigo-600 text-white font-bold text-[11px] tracking-wider transition-colors cursor-pointer";
+                document.getElementById('dtAmBtn').className = "px-3.5 py-2 rounded-lg bg-[#18182d] border border-white/10 text-gray-400 font-bold text-[11px] tracking-wider transition-colors hover:bg-white/5 cursor-pointer";
+            }
+        }
+
+        function changeHour(dir) { dtHourVal += dir; if (dtHourVal > 12) dtHourVal = 1; if (dtHourVal < 1) dtHourVal = 12; updateTimeUI(); }
+        function changeMinute(dir) { dtMinuteVal += dir; if (dtMinuteVal >= 60) dtMinuteVal = 0; if (dtMinuteVal < 0) dtMinuteVal = 45; updateTimeUI(); }
+        function setAmPm(val) { dtAmPm = val; updateTimeUI(); }
+
+        function confirmDateTime() {
+            const fMonth = (dtSelectedMonth + 1).toString().padStart(2, '0');
+            const fDate = dtSelectedDate.toString().padStart(2, '0');
+            const fHour = dtHourVal.toString().padStart(2, '0');
+            const fMin = dtMinuteVal.toString().padStart(2, '0');
+            document.getElementById('shDateTimeDisplay').value = `${fMonth}/${fDate}/${dtSelectedYear} ${fHour}:${fMin} ${dtAmPm}`;
+            closeCustomDateTimePicker();
+        }
+        // --- End Custom Date Time Logic ---
 
         function toggleTzDropdown() {
             const menu = document.getElementById('tzDropdownMenu');
@@ -692,15 +818,14 @@
             const ln = document.getElementById('shLastName').value.trim();
             const email = document.getElementById('shEmail').value.trim();
             const rawPhone = document.getElementById('shPhone').value.trim();
-            const dateInput = document.getElementById('shDate').value.trim();
-            const timeInput = document.getElementById('shTime').value.trim();
+            const dateTimeInput = document.getElementById('shDateTimeDisplay').value.trim();
             const tz = document.getElementById('shTimeZone').value;
             const note = document.getElementById('shNote').value.trim();
             const errorMsg = document.getElementById('showingErrorMessage');
             const btn = document.getElementById('submitShowingBtn');
 
             let phoneDigits = rawPhone.replace(/\D/g, ''); 
-            if(!fn || !ln || !email || !phoneDigits || !dateInput || !timeInput || !tz) {
+            if(!fn || !ln || !email || !phoneDigits || !dateTimeInput || !tz) {
                 errorMsg.innerText = "All fields except Notes are required.";
                 errorMsg.classList.remove('hidden'); 
                 shakeElement('showingModalFormContent');
@@ -713,17 +838,7 @@
                 return;
             }
 
-            let formattedDateTime = "";
-            try {
-                let [year, month, day] = dateInput.split('-');
-                let [hourStr, minStr] = timeInput.split(':');
-                let hour = parseInt(hourStr, 10);
-                let ampm = hour >= 12 ? 'PM' : 'AM';
-                hour = hour % 12; if (hour === 0) hour = 12;
-                let hrFormatted = hour < 10 ? '0'+hour : hour;
-                formattedDateTime = `${month}/${day}/${year} ${hrFormatted}:${minStr} ${ampm} ${tz}`;
-            } catch(e) { formattedDateTime = `${dateInput} ${timeInput} ${tz}`; }
-            
+            const formattedDateTime = `${dateTimeInput} ${tz}`;
             const formattedPhone = '+1' + phoneDigits;
             errorMsg.classList.add('hidden');
             btn.innerText = "Sending Request...";
@@ -762,7 +877,7 @@
                         btn.className = `w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer shadow-lg border border-white/10 text-[13px] sm:text-sm`;
                         formContent.style.opacity = '1'; formContent.style.pointerEvents = 'auto';
                         document.getElementById('shFirstName').value = ''; document.getElementById('shLastName').value = '';
-                        document.getElementById('shDate').value = ''; document.getElementById('shTime').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
+                        document.getElementById('shDateTimeDisplay').value = ''; document.getElementById('shTimeZone').value = ''; document.getElementById('shTimeZoneLabel').innerText = 'Select Zone'; document.getElementById('shTimeZoneLabel').classList.add('text-gray-400'); document.getElementById('shTimeZoneLabel').classList.remove('text-white'); document.getElementById('shNote').value = '';
                         
                         iconContainer.className = "mx-auto w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 mb-3 sm:mb-4 transition-all duration-300";
                         iconContainer.innerHTML = '<svg class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
