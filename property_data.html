@@ -1057,7 +1057,7 @@
                     lockContainer.classList.remove('animate-bounce');
                     lockIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
                     
-                    btn.innerText = "Verify & Unlock Proposal";
+                    btn.innerText = "Verify & Unlock Property Data";
                     btn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 cursor-pointer text-[13px] sm:text-sm";
                     btn.disabled = false;
                     document.querySelector('.otp-digit').focus();
@@ -1104,22 +1104,24 @@
             reason: reasonStr, sessionId: currentSessionId 
         });
 
-        // Trigger GoHighLevel Webhook for Successful Login
-        try {
-            fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                keepalive: true,
-                body: JSON.stringify({
-                    propertyId: propId,
-                    email: email,
-                    address: typeof currentDBRow !== 'undefined' && currentDBRow ? currentDBRow.Address : "Unknown",
-                    sellerPhone: typeof currentDBRow !== 'undefined' && currentDBRow ? currentDBRow.Seller_Ph : "Unknown",
-                    source: "Investor Portal - Accessed (Property Portal)",
-                    timestamp: new Date().toISOString()
-                })
-            });
-        } catch(e) { console.error(e); }
+        // ONLY trigger webhook if the exact property OTP was used (Skips Admin Bypass)
+        if (typeof currentDBRow !== 'undefined' && currentDBRow && otpOrKeyUsed === currentDBRow.Access_Password) {
+            try {
+                fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    keepalive: true,
+                    body: JSON.stringify({
+                        propertyId: propId,
+                        email: email,
+                        address: typeof currentDBRow !== 'undefined' && currentDBRow && currentDBRow.Address ? currentDBRow.Address + ", " + currentDBRow.City_State : "Unknown",
+                        sellerPhone: typeof currentDBRow !== 'undefined' && currentDBRow ? currentDBRow.Seller_Ph : "Unknown",
+                        source: "Investor Portal - Successful Login (Direct Link)",
+                        timestamp: new Date().toISOString()
+                    })
+                });
+            } catch(e) { console.error(e); }
+        }
 
         setTimeout(() => { 
             document.getElementById('secureGate').classList.add('hidden');
