@@ -358,12 +358,14 @@
         </header>
 
         <div id="loadingIndicator" class="text-center py-16 flex flex-col items-center justify-center">
-            <div class="relative w-32 h-32 sm:w-40 sm:h-40 mb-8 flex items-center justify-center">
-                <div class="gradient-ring-glow z-0"></div>
+            <div class="relative w-36 h-36 sm:w-48 sm:h-48 mb-8 flex items-center justify-center">
+                <div class="gradient-ring-glow z-0 opacity-70"></div>
                 <div class="gradient-ring-border z-10"></div>
-                <img src="icon.svg" alt="Loading" class="w-14 h-14 sm:w-16 sm:h-16 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
+                <!-- Dark mask blocks the center glow bleed -->
+                <div class="absolute inset-[3px] bg-[#0b0f19] rounded-full z-10"></div>
+                <img src="icon.svg" alt="Loading" class="w-20 h-20 sm:w-28 sm:h-28 z-20 animate-icon-pulse object-contain" onerror="this.style.display='none'" />
             </div>
-            <p class="font-mono text-base sm:text-lg tracking-widest uppercase animate-text-gradient-pulse">Syncing Live Database...</p>
+            <p class="font-mono text-base sm:text-lg tracking-widest uppercase animate-text-gradient-pulse mt-4">Syncing Live Database...</p>
         </div>
 
         <div id="globalErrorMessage" class="hidden text-center py-16 text-brand-crimson font-bold bg-brand-crimson/10 rounded-xl border border-brand-crimson/20"></div>
