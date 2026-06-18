@@ -848,23 +848,26 @@
 
             sendWebhookEvent({ action: 'log_access', timestamp: Date.now(), email: email, propertyId: propId, otpUsed: otpOrKeyUsed, status: "SUCCESS", reason: reasonStr, sessionId: currentSessionTrackingId });
 
-            // Trigger GoHighLevel Webhook for Successful Login
-            try {
-                const activeProp = globalProperties.find(p => p.Property_ID === propId);
-                fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    keepalive: true,
-                    body: JSON.stringify({
-                        propertyId: propId,
-                        email: email, 
-                        address: activeProp && activeProp.Address ? activeProp.Address + ", " + activeProp.City_State : "Unknown",
-                        sellerPhone: activeProp ? activeProp.Seller_Ph : "Unknown",
-                        source: "Investor Portal - Accessed (Home)",
-                        timestamp: new Date().toISOString()
-                    })
-                });
-            } catch(e) { console.error(e); }
+           const activeProp = globalProperties.find(p => p.Property_ID === propId);
+            
+            // ONLY trigger webhook if the exact property OTP was used (Skips Admin Bypass)
+            if (activeProp && otpOrKeyUsed === activeProp.Access_Password) {
+                try {
+                    fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        keepalive: true,
+                        body: JSON.stringify({
+                            propertyId: propId,
+                            email: email, 
+                            address: activeProp && activeProp.Address ? activeProp.Address + ", " + activeProp.City_State : "Unknown",
+                            sellerPhone: activeProp ? activeProp.Seller_Ph : "Unknown",
+                            source: "Investor Portal - Successful Login (Home Dashboard)",
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+                } catch(e) { console.error(e); }
+            }
 
             setTimeout(() => { window.location.href = `property_data.html?id=${encodeURIComponent(propId)}`; }, 1200);
         }
