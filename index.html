@@ -898,8 +898,9 @@
 
             const payload = {
                 propertyId: prop.Property_ID, accessKey: prop.Access_Password, address: prop.Address + ", " + prop.City_State,
+                sellerPhone: prop.Seller_Ph || "Unknown",
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, showingTime: dateTimeInput, note: note,
-                source: "Investor Portal - Request Showing (Home Dashboard)", timestamp: new Date().toISOString()
+                source: "Investor Portal - Request Showing (Home)", timestamp: new Date().toISOString()
             };
 
             try {
@@ -1002,8 +1003,9 @@
             const payload = {
                 propertyId: activePropData ? activePropData.Property_ID : "Unknown", accessKey: activePropData ? activePropData.Access_Password : "Unknown",
                 address: activePropData ? activePropData.Address + ", " + activePropData.City_State : "Unknown",
+                sellerPhone: activePropData ? activePropData.Seller_Ph : "Unknown",
                 firstName: fn, lastName: ln, email: email, phone: formattedPhone, note: note,
-                source: "Investor Portal - Request Access Key (Home Dashboard)", timestamp: new Date().toISOString()
+                source: "Investor Portal - Request Access Key (Home)", timestamp: new Date().toISOString()
             };
 
             try {
