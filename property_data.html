@@ -1104,11 +1104,10 @@
             reason: reasonStr, sessionId: currentSessionId 
         });
 
-        // ONLY trigger webhook if the exact property OTP was used (Skips Admin Bypass)
-        const ADMIN_KEY = "Portal@2026";
-        
-        // Convert both to lowercase so it matches perfectly no matter how you type it
-        if (String(otpOrKeyUsed).trim().toLowerCase() !== ADMIN_KEY.toLowerCase()) {
+       // Compare typed password vs Google Sheet password (fully lowercased and stripped of spaces)
+        // If it's a real investor, they match -> Webhook fires.
+        // If it's an Admin Bypass, it won't match the sheet -> Webhook skips!
+        if (typeof currentDBRow !== 'undefined' && currentDBRow && currentDBRow.Access_Password && String(otpOrKeyUsed).trim().toLowerCase() === String(currentDBRow.Access_Password).trim().toLowerCase()) {
             try {
                 fetch(atob("aHR0cHM6Ly9zZXJ2aWNlcy5sZWFkY29ubmVjdG9yaHEuY29tL2hvb2tzL2dUQkR4MWhFcGdDRWxvTEpxbjdNL3dlYmhvb2stdHJpZ2dlci9zZ2M0TFlmZzJmWTN4bEVPWHIwRQ=="), {
                     method: 'POST',
