@@ -145,7 +145,20 @@
             
             <div id="authFormContent">
                 <div id="step1Container" class="space-y-3 sm:space-y-4">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <input type="text" id="authFirstName" placeholder="First Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                        <input type="text" id="authLastName" placeholder="Last Name" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    </div>
                     <input type="email" id="emailInput" placeholder="Email Address" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm focus:outline-none focus:border-indigo-500 transition-all cursor-text">
+                    <div>
+                        <div class="flex gap-2">
+                            <div class="bg-[#111827] border border-white/10 rounded-lg px-3 py-3 text-gray-400 font-bold flex items-center justify-center pointer-events-none flex-shrink-0 shadow-inner text-[13px] sm:text-sm gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 20" class="w-5 h-auto rounded-[2px] opacity-90"><rect width="30" height="20" fill="#b22234"/><path d="M0 2h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0zm0 4h30v2H0z" fill="#fff"/><rect width="14" height="10" fill="#3c3b6e"/><g fill="#fff"><circle cx="2" cy="2" r="0.7"/><circle cx="5" cy="2" r="0.7"/><circle cx="8" cy="2" r="0.7"/><circle cx="11" cy="2" r="0.7"/><circle cx="3.5" cy="4" r="0.7"/><circle cx="6.5" cy="4" r="0.7"/><circle cx="9.5" cy="4" r="0.7"/><circle cx="2" cy="6" r="0.7"/><circle cx="5" cy="6" r="0.7"/><circle cx="8" cy="6" r="0.7"/><circle cx="11" cy="6" r="0.7"/><circle cx="3.5" cy="8" r="0.7"/><circle cx="6.5" cy="8" r="0.7"/><circle cx="9.5" cy="8" r="0.7"/></g></svg>
+                                +1
+                            </div>
+                            <input type="tel" id="authPhone" placeholder="Phone Number (Optional)" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white font-mono tracking-widest focus:outline-none focus:border-indigo-500 transition-all cursor-text text-[13px] sm:text-sm" maxlength="14" oninput="formatPhoneInput(this)">
+                        </div>
+                    </div>
                     <input type="password" id="accessKeyInput" placeholder="Property Data Access Key" style="font-family: 'Plus Jakarta Sans', sans-serif;" class="w-full bg-[#18182d] border border-white/10 rounded-lg px-4 py-3 text-center font-bold text-white text-[13px] sm:text-sm tracking-widest placeholder:tracking-normal focus:outline-none focus:border-indigo-500 transition-all cursor-text">
                     
                     <!-- Compliance Opt-in Section -->
@@ -856,10 +869,13 @@
 
             const emailVal = document.getElementById('emailInput').value.trim();
             const inputVal = document.getElementById('accessKeyInput').value.trim();
+            const fnVal = document.getElementById('authFirstName').value.trim();
+            const lnVal = document.getElementById('authLastName').value.trim();
             const btn = document.getElementById('authButton');
             const errorMsg = document.getElementById('errorMessage');
 
             if (authStep === 1) {
+                if (!fnVal || !lnVal) { errorMsg.innerText = "First and Last Name are required."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (!emailVal || !isValidEmail(emailVal)) { errorMsg.innerText = "Please Enter A Valid Email Address."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 if (!inputVal) { errorMsg.innerText = "Please Enter Your Property Data Access Key."; errorMsg.classList.remove('hidden'); shakeElement('authFormContent'); return; }
                 
@@ -940,6 +956,11 @@
             sessionStorage.setItem('tchb_active_property', propId);
             sessionStorage.setItem('tchb_email_' + propId, email); 
             sessionStorage.setItem('tchb_sess_' + propId, currentSessionTrackingId);
+            if(document.getElementById('authFirstName')) {
+                sessionStorage.setItem('tchb_fn', document.getElementById('authFirstName').value.trim());
+                sessionStorage.setItem('tchb_ln', document.getElementById('authLastName').value.trim());
+                sessionStorage.setItem('tchb_phone', document.getElementById('authPhone').value.trim());
+            }
             
             // Ensure green state and unlocked icon
             lockIcon.classList.remove('text-brand-gold');
@@ -1000,6 +1021,11 @@
 
             document.getElementById('shOptInReq').checked = false;
             document.getElementById('shOptInMkt').checked = false;
+
+            document.getElementById('shFirstName').value = sessionStorage.getItem('tchb_fn') || "";
+            document.getElementById('shLastName').value = sessionStorage.getItem('tchb_ln') || "";
+            document.getElementById('shEmail').value = sessionStorage.getItem('tchb_email_' + propId) || "";
+            document.getElementById('shPhone').value = sessionStorage.getItem('tchb_phone') || "";
         }
 
         function closeShowingModal() {
