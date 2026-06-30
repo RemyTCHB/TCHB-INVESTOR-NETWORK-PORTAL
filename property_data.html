@@ -617,6 +617,17 @@
           </div>
           <p id="ui-kpi-3-desc" class="text-[11px] sm:text-xs text-gray-300 mt-4 leading-relaxed">...</p>
         </div>
+        
+        <div class="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8 gradient-border bg-gradient-to-br from-indigo-950/30 to-brand-crimson/10 border border-gray-800 p-6 rounded-xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group">
+            <div>
+               <h4 class="text-sm sm:text-base font-extrabold text-white mb-4">Property Specs</h4>
+               <div id="ui-cr-kpi-4-specs" class="text-[11px] sm:text-xs text-gray-300 leading-relaxed">...</div>
+            </div>
+            <div>
+               <h4 class="text-sm sm:text-base font-extrabold text-white mb-4">Important Notes</h4>
+               <div id="ui-cr-kpi-4-notes" class="text-[11px] sm:text-xs text-gray-300 leading-relaxed">...</div>
+            </div>
+        </div>
       </div>
 
       <div class="mt-6 flex flex-col gap-6 hidden-module" id="wholesale-kpis">
@@ -1264,6 +1275,7 @@
             info1Label: currentDBRow.Info_1_Label, info1Value: currentDBRow.Info_1_Value, info1Desc: currentDBRow.Info_1_Desc,
             info2Label: currentDBRow.Info_2_Label, info2Value: currentDBRow.Info_2_Value, info2Desc: currentDBRow.Info_2_Desc,
             info3Label: currentDBRow.Info_3_Label, info3Value: currentDBRow.Info_3_Value, info3Desc: currentDBRow.Info_3_Desc,
+            info4Specs: currentDBRow.Info_4_Specs, info4Notes: currentDBRow.Info_4_Notes,
             wsInfo1Label: currentDBRow.WS_Info_1_Label, wsInfo1Value: currentDBRow.WS_Info_1_Value, wsInfo1Link: currentDBRow.WS_Info_1_Link,
             wsInfo2Label: currentDBRow.WS_Info_2_Label, wsInfo2Value: currentDBRow.WS_Info_2_Value, wsInfo2Desc: currentDBRow.WS_Info_2_Desc,
             wsInfo3Specs: currentDBRow.WS_Info_3_Specs, wsInfo3Notes: currentDBRow.WS_Info_3_Notes,
@@ -1312,6 +1324,11 @@
         document.getElementById('ui-kpi-1-label').innerText = data.info1Label; document.getElementById('ui-kpi-1-value').innerText = data.info1Value; document.getElementById('ui-kpi-1-desc').innerText = data.info1Desc;
         document.getElementById('ui-kpi-2-label').innerText = data.info2Label; document.getElementById('ui-kpi-2-value').innerText = data.info2Value; document.getElementById('ui-kpi-2-desc').innerText = data.info2Desc;
         document.getElementById('ui-kpi-3-label').innerText = data.info3Label; document.getElementById('ui-kpi-3-value').innerText = data.info3Value; document.getElementById('ui-kpi-3-desc').innerText = data.info3Desc;
+        
+        if (document.getElementById('ui-cr-kpi-4-specs')) {
+            document.getElementById('ui-cr-kpi-4-specs').innerHTML = formatBullets(data.info4Specs, 'text-purple-400');
+            document.getElementById('ui-cr-kpi-4-notes').innerHTML = formatBullets(data.info4Notes, 'text-purple-400');
+        }
 
         const narrativeBoxes = [
             { t: data.box1Title, d: data.box1Desc, wr: 'box-1-wrapper', tt: 'ui-box-1-title', dd: 'ui-box-1-desc' },
